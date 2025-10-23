@@ -169,9 +169,7 @@
             // --- Template Store ---
             const templates = {
                 'locker-sheet': {
-                    // type: 'single' means one name per PDF page
                     type: 'single',
-                    // html: The HTML for the template
                     html: `
                         <div class="w-full h-full flex items-center justify-center p-8 box-border">
                             <div class="w-full h-full border-4 border-blue-500 rounded-lg flex items-center justify-center p-8">
@@ -182,29 +180,25 @@
                         </div>`
                 },
                 'file-tabs': {
-                    // type: 'grid' means multiple names per PDF page
                     type: 'grid',
-                    // itemsPerPage: How many names to fit on one page
-                    itemsPerPage: 30, // 3 columns x 10 rows
-                    // html: The HTML for *one item* in the grid
+                    itemsPerPage: 39, // 3 columns x 13 rows
                     html: `
-                        <div class="w-[2.5in] h-[1in] border border-gray-400 rounded-t-lg bg-gray-100 flex items-center justify-center overflow-hidden p-2 m-[0.1in] box-border">
-                            <span class="text-xl font-semibold truncate">{{STUDENT_NAME}}</span>
+                        <div class="w-[2in] h-[0.6in] border border-gray-400 rounded-t-lg bg-gray-100 flex items-center justify-center overflow-hidden p-1 m-[0.1in] box-border">
+                            <span class="w-full text-center font-semibold underline" style="font-size: 20px;">{{STUDENT_NAME}}</span>
                         </div>`
                 },
                 'coat-hook': {
                     type: 'single',
                     html: `
                         <div class="w-full h-full flex items-center justify-center p-8 box-border">
-                            <div class="w-[8in] h-[10in] border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center p-8">
-                                <svg class="w-24 h-24 text-gray-500" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
-                                <h1 class="text-6xl font-bold text-gray-800 text-center break-all mt-6">
+                            <div class="w-full h-full border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center p-8">
+                                <svg class="w-32 h-32 text-gray-500" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
+                                <h1 class="text-7xl font-bold text-gray-800 text-center break-all mt-6">
                                     {{STUDENT_NAME}}
                                 </h1>
                             </div>
                         </div>`
                 },
-                // --- NAME TRACE TEMPLATE ---
                 'name-trace': {
                     type: 'single',
                     html: `
@@ -212,10 +206,12 @@
                             <!-- Section 1: Spell Name -->
                             <div class="w-full mb-8">
                                 <p class="text-xl font-semibold mb-2">I can spell my name</p>
-                                <!-- The editable name and the line below it -->
-                                <h1 class="text-4xl font-bold border-b border-black pb-1 text-gray-800 tracking-widest text-left" style="font-family: 'Arial', sans-serif;">
+                                <!-- The editable name -->
+                                <h1 class="text-4xl font-bold text-gray-800 tracking-widest text-left" style="font-family: 'Arial', sans-serif;">
                                     {{STUDENT_NAME}}
                                 </h1>
+                                <!-- Separate line below the name -->
+                                <div class="h-0.5 border-b border-black w-full mt-4"></div>
                             </div>
 
                             <!-- Section 2: Trace Name -->
@@ -352,6 +348,9 @@
                     // 5. Populate and render the template in the hidden div
                     renderTarget.innerHTML = templateHtml.replace(/{{STUDENT_NAME}}/g, escapeHTML(name));
                     
+                    // Add delay to ensure browser fully renders styles/fonts before capture
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
                     // 6. Use html2canvas to "screenshot" the hidden div
                     const canvas = await html2canvas(renderTarget, {
                         useCORS: true,
@@ -390,6 +389,20 @@
 
                     // 5. Populate and render the template in the hidden div
                     renderTarget.innerHTML = pageHtml;
+                    
+                    // Add delay to ensure browser fully renders styles/fonts before capture
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
+                    // Adjust font sizes dynamically to prevent overflow
+                    const spans = renderTarget.querySelectorAll('span');
+                    spans.forEach(span => {
+                        let fontSize = 20;
+                        span.style.fontSize = `${fontSize}px`;
+                        while (span.scrollWidth > span.clientWidth && fontSize > 6) {
+                            fontSize -= 1;
+                            span.style.fontSize = `${fontSize}px`;
+                        }
+                    });
                     
                     // 6. Use html2canvas to "screenshot" the hidden div
                     const canvas = await html2canvas(renderTarget, {
