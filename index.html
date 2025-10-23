@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RosterRaster - MVP</title>
-    <!-- 1. Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Simple transition for the template selection */
@@ -15,10 +14,8 @@
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
-    <!-- Main Content Container -->
     <main class="max-w-4xl mx-auto p-4 md:p-8">
         
-        <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-5xl font-bold text-blue-700">RosterRaster</h1>
             <p class="text-lg text-gray-600 mt-2">Create custom name sheets from your class roster instantly.</p>
@@ -27,23 +24,10 @@
         <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <!-- Left Column: Settings -->
                 <div>
-                    <!-- Section 1: Template Gallery -->
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">1. Select a Template</h2>
                         <div id="template-gallery" class="grid grid-cols-2 gap-4">
-                            <!-- Name Trace Sheet Template -->
-                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="name-trace">
-                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col p-2">
-                                    <span class="text-xs text-gray-500">I can spell my name</span>
-                                    <span class="text-2xl font-bold text-gray-700">Trace</span>
-                                    <span class="text-xs text-gray-500">I can write my name</span>
-                                </div>
-                                <h3 class="font-semibold text-center">Name Trace Sheet</h3>
-                                <p class="text-xs text-gray-500 text-center">Practice spelling, tracing, and writing.</p>
-                            </div>
-                            <!-- Locker Sheet Template -->
                             <div class="template-card border-2 border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="locker-sheet">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2">
                                     <span class="text-2xl font-bold text-gray-700">Name</span>
@@ -52,7 +36,6 @@
                                 <p class="text-xs text-gray-500 text-center">One name per page.</p>
                             </div>
                             
-                            <!-- File Tabs Template -->
                             <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="file-tabs">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex flex-wrap items-start justify-start p-2 gap-1">
                                     <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 1</span>
@@ -63,36 +46,44 @@
                                 <p class="text-xs text-gray-500 text-center">Multiple names per page.</p>
                             </div>
 
-                            <!-- Coat Hook Template -->
                             <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="coat-hook">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col">
-                                    <!-- Simple SVG for a hook -->
                                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
                                     <span class="text-sm font-bold text-gray-700 mt-1">Name</span>
                                 </div>
                                 <h3 class="font-semibold text-center">Coat Hook Label</h3>
                                 <p class="text-xs text-gray-500 text-center">One name per page.</p>
                             </div>
+                            
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="name-trace">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col p-2">
+                                    [cite_start]<span class="text-xs text-gray-500">I can spell my name [cite: 1]</span>
+                                    <span class="text-2xl font-bold text-gray-700">Trace</span>
+                                    [cite_start]<span class="text-xs text-gray-500">I can write my name [cite: 7]</span>
+                                </div>
+                                <h3 class="font-semibold text-center">Name Trace Sheet</h3>
+                                <p class="text-xs text-gray-500 text-center">Practice spelling, tracing, and writing.</p>
+                            </div>
 
                         </div>
                     </section>
                 </div>
 
-                <!-- Right Column: Input & Generate -->
                 <div>
-                    <!-- Section 2: Name Input -->
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">2. Enter Student Names</h2>
                         <label for="name-textarea" class="text-sm text-gray-600 mb-2 block">Enter one name per line.</label>
-                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice Bob Charlie David"</textarea>
+                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice
+Bob
+Charlie
+David
+..."></textarea>
                     </section>
 
-                    <!-- Section 3: Generate Button -->
                     <section>
                         <h2 class="text-2xl font-semibold mb-4">3. Generate Your PDF</h2>
                         <button id="generate-button" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out flex items-center justify-center">
                             <span id="btn-text">Generate PDF</span>
-                            <!-- Loading Spinner -->
                             <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -104,19 +95,14 @@
             </div>
         </div>
         
-        <!-- Footer -->
         <footer class="text-center mt-8 text-gray-500 text-sm">
             &copy; 2025 RosterRaster.com
         </footer>
 
     </main>
     
-    <!-- Section 4: Hidden Render Area -->
-    <!-- This div is used to render the HTML before it's converted to an image by html2canvas. -->
-    <!-- It's positioned off-screen. Dimensions are set in inches for a standard letter page. -->
     <div id="render-target" class="fixed -left-[9999px] top-0 bg-white" style="width: 8.5in; height: 11in;"></div>
 
-    <!-- Custom Modal for Errors (replaces alert()) -->
     <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
             <h3 class="text-lg font-semibold text-red-600 mb-4">Error</h3>
@@ -125,11 +111,9 @@
         </div>
     </div>
 
-    <!-- 2. Include JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <!-- 3. Core Application JavaScript -->
     <script>
         // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
@@ -187,32 +171,32 @@
                             </div>
                         </div>`
                 },
+                // --- NEW NAME TRACE TEMPLATE ---
                 'name-trace': {
                     type: 'single',
                     html: `
                         <div class="w-full h-full p-10 box-border flex flex-col items-center">
                             <div class="w-full mb-8">
-                                <p class="text-xl font-semibold mb-2">I can spell my name</p>
+                                [cite_start]<p class="text-xl font-semibold mb-2">I can spell my name [cite: 1]</p>
                                 <h1 class="text-4xl font-bold border-b border-black pb-1 text-gray-800 tracking-widest text-left" style="font-family: 'Arial', sans-serif;">
-                                    {{STUDENT_NAME}}
+                                    [cite_start]{{STUDENT_NAME}} [cite: 2]
                                 </h1>
                             </div>
 
                             <div class="w-full mb-8">
-                                <p class="text-xl font-semibold mb-2">I can trace my name</p>
+                                [cite_start]<p class="text-xl font-semibold mb-2">I can trace my name [cite: 4]</p>
                                 <h1 class="text-6xl font-extrabold pb-1 text-gray-400 opacity-50 tracking-widest text-left" style="font-family: 'Arial', sans-serif; letter-spacing: 0.25em;">
-                                    {{STUDENT_NAME}}
+                                    [cite_start]{{STUDENT_NAME}} [cite: 5]
                                 </h1>
-                                <div class="h-10 border-b-4 border-dashed border-gray-500 w-full mt-2"></div>
+                                [cite_start]<div class="h-10 border-b-4 border-dashed border-gray-500 w-full mt-2"> [cite: 6]</div>
                             </div>
 
                             <div class="w-full">
-                                <p class="text-xl font-semibold mb-2">I can write my name</p>
+                                [cite_start]<p class="text-xl font-semibold mb-2">I can write my name [cite: 7]</p>
                                 <div class="w-full h-32 border-4 border-black rounded-xl mt-4"></div>
                             </div>
                         </div>`
                 }
-            };
             };
 
             // --- Template Selection Logic ---
@@ -315,7 +299,7 @@
                     }
 
                     // 5. Populate and render the template in the hidden div
-                    renderTarget.innerHTML = templateHtml.replace('{{STUDENT_NAME}}', escapeHTML(name));
+                    renderTarget.innerHTML = templateHtml.replace(/{{STUDENT_NAME}}/g, escapeHTML(name));
                     
                     // 6. Use html2canvas to "screenshot" the hidden div
                     const canvas = await html2canvas(renderTarget, {
@@ -383,6 +367,5 @@
             }
         });
     </script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2a0e1bbff60940ca891227ac33b46e2c"}'></script><!-- End Cloudflare Web Analytics -->
-</body>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2a0e1bbff60940ca891227ac33b46e2c"}'></script></body>
 </html>
