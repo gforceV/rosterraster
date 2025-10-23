@@ -4,18 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RosterRaster - MVP</title>
+    <!-- 1. Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Simple transition for the template selection */
         .template-card {
             transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        /* Style for the selected card */
+        .template-card[data-template="locker-sheet"][data-selected="true"],
+        .template-card[data-template="file-tabs"][data-selected="true"],
+        .template-card[data-template="coat-hook"][data-selected="true"],
+        .template-card[data-template="name-trace"][data-selected="true"] {
+            border-color: #3b82f6; /* Tailwind blue-500 */
         }
     </style>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
+    <!-- Main Content Container -->
     <main class="max-w-4xl mx-auto p-4 md:p-8">
         
+        <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-5xl font-bold text-blue-700">RosterRaster</h1>
             <p class="text-lg text-gray-600 mt-2">Create custom name sheets from your class roster instantly.</p>
@@ -24,42 +35,59 @@
         <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
+                <!-- Left Column: Settings -->
                 <div>
+                    <!-- Section 1: Template Gallery -->
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">1. Select a Template</h2>
                         <div id="template-gallery" class="grid grid-cols-2 gap-4">
-                            <div class="template-card border-2 border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="locker-sheet">
+                            
+                            <!-- Locker Sheet Template (Icon: Locker Logo) -->
+                            <div class="template-card border-2 border-blue-500 rounded-lg p-3 bg-white shadow" data-template="locker-sheet" data-selected="true">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2">
-                                    <span class="text-2xl font-bold text-gray-700">Name</span>
+                                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Locker Logo (Box with divider and handles/vents) -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18M7 8h1M7 16h1M16 8h1M16 16h1"/>
+                                    </svg>
                                 </div>
                                 <h3 class="font-semibold text-center">Locker Sheet</h3>
                                 <p class="text-xs text-gray-500 text-center">One name per page.</p>
                             </div>
                             
-                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="file-tabs">
-                                <div class="w-full h-24 bg-gray-50 rounded-md flex flex-wrap items-start justify-start p-2 gap-1">
-                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 1</span>
-                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 2</span>
-                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 3</span>
+                            <!-- File Tabs Template (Icon: File Folder Logo) -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 bg-white shadow" data-template="file-tabs">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2">
+                                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- File Folder Logo -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                    </svg>
                                 </div>
                                 <h3 class="font-semibold text-center">File Tabs</h3>
                                 <p class="text-xs text-gray-500 text-center">Multiple names per page.</p>
                             </div>
 
-                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="coat-hook">
+                            <!-- Coat Hook Template (Icon: Simple Hook ONLY) -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 bg-white shadow" data-template="coat-hook">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
-                                    <span class="text-sm font-bold text-gray-700 mt-1">Name</span>
+                                    <svg class="w-12 h-12 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Simple Coat Hook Icon -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v6m0 0c-2 0-4 2-4 4v8M12 8c2 0 4 2 4 4v8"/>
+                                    </svg>
                                 </div>
                                 <h3 class="font-semibold text-center">Coat Hook Label</h3>
                                 <p class="text-xs text-gray-500 text-center">One name per page.</p>
                             </div>
                             
-                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="name-trace">
+                            <!-- Name Trace Template (Icon: Dashed Text and Pencil) -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 bg-white shadow" data-template="name-trace">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col p-2">
-                                    [cite_start]<span class="text-xs text-gray-500">I can spell my name [cite: 1]</span>
-                                    <span class="text-2xl font-bold text-gray-700">Trace</span>
-                                    [cite_start]<span class="text-xs text-gray-500">I can write my name [cite: 7]</span>
+                                    <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Large dashed writing line -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" stroke-dasharray="6 6" d="M4 12h16"/>
+                                        <!-- Pencil/Pen writing on it -->
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                    </svg>
                                 </div>
                                 <h3 class="font-semibold text-center">Name Trace Sheet</h3>
                                 <p class="text-xs text-gray-500 text-center">Practice spelling, tracing, and writing.</p>
@@ -69,21 +97,21 @@
                     </section>
                 </div>
 
+                <!-- Right Column: Input & Generate -->
                 <div>
+                    <!-- Section 2: Name Input -->
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">2. Enter Student Names</h2>
                         <label for="name-textarea" class="text-sm text-gray-600 mb-2 block">Enter one name per line.</label>
-                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice
-Bob
-Charlie
-David
-..."></textarea>
+                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter names here, one per line (e.g., Alice, Bob, Charlie)"></textarea>
                     </section>
 
+                    <!-- Section 3: Generate Button -->
                     <section>
                         <h2 class="text-2xl font-semibold mb-4">3. Generate Your PDF</h2>
                         <button id="generate-button" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out flex items-center justify-center">
                             <span id="btn-text">Generate PDF</span>
+                            <!-- Loading Spinner -->
                             <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -95,14 +123,18 @@ David
             </div>
         </div>
         
+        <!-- Footer -->
         <footer class="text-center mt-8 text-gray-500 text-sm">
             &copy; 2025 RosterRaster.com
         </footer>
 
     </main>
     
+    <!-- Section 4: Hidden Render Area -->
+    <!-- This div is used to render the HTML before it's converted to an image by html2canvas. -->
     <div id="render-target" class="fixed -left-[9999px] top-0 bg-white" style="width: 8.5in; height: 11in;"></div>
 
+    <!-- Custom Modal for Errors (replaces alert()) -->
     <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
             <h3 class="text-lg font-semibold text-red-600 mb-4">Error</h3>
@@ -111,9 +143,11 @@ David
         </div>
     </div>
 
+    <!-- 2. Include JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <!-- 3. Core Application JavaScript -->
     <script>
         // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
@@ -133,7 +167,6 @@ David
             let selectedTemplate = 'locker-sheet'; // Default template
 
             // --- Template Store ---
-            // This is where you'll add new templates. Just add a new key/value pair.
             const templates = {
                 'locker-sheet': {
                     // type: 'single' means one name per PDF page
@@ -171,28 +204,35 @@ David
                             </div>
                         </div>`
                 },
-                // --- NEW NAME TRACE TEMPLATE ---
+                // --- NAME TRACE TEMPLATE ---
                 'name-trace': {
                     type: 'single',
                     html: `
                         <div class="w-full h-full p-10 box-border flex flex-col items-center">
+                            <!-- Section 1: Spell Name -->
                             <div class="w-full mb-8">
-                                [cite_start]<p class="text-xl font-semibold mb-2">I can spell my name [cite: 1]</p>
+                                <p class="text-xl font-semibold mb-2">I can spell my name</p>
+                                <!-- The editable name and the line below it -->
                                 <h1 class="text-4xl font-bold border-b border-black pb-1 text-gray-800 tracking-widest text-left" style="font-family: 'Arial', sans-serif;">
-                                    [cite_start]{{STUDENT_NAME}} [cite: 2]
+                                    {{STUDENT_NAME}}
                                 </h1>
                             </div>
 
+                            <!-- Section 2: Trace Name -->
                             <div class="w-full mb-8">
-                                [cite_start]<p class="text-xl font-semibold mb-2">I can trace my name [cite: 4]</p>
+                                <p class="text-xl font-semibold mb-2">I can trace my name</p>
+                                <!-- The editable name, styled for tracing (lighter, dotted appearance) -->
                                 <h1 class="text-6xl font-extrabold pb-1 text-gray-400 opacity-50 tracking-widest text-left" style="font-family: 'Arial', sans-serif; letter-spacing: 0.25em;">
-                                    [cite_start]{{STUDENT_NAME}} [cite: 5]
+                                    {{STUDENT_NAME}}
                                 </h1>
-                                [cite_start]<div class="h-10 border-b-4 border-dashed border-gray-500 w-full mt-2"> [cite: 6]</div>
+                                <!-- Tracing Line - An empty space for the student to trace on -->
+                                <div class="h-10 border-b-4 border-dashed border-gray-500 w-full mt-2"></div>
                             </div>
 
+                            <!-- Section 3: Write Name -->
                             <div class="w-full">
-                                [cite_start]<p class="text-xl font-semibold mb-2">I can write my name [cite: 7]</p>
+                                <p class="text-xl font-semibold mb-2">I can write my name</p>
+                                <!-- Empty writing box (matches the box image provided) -->
                                 <div class="w-full h-32 border-4 border-black rounded-xl mt-4"></div>
                             </div>
                         </div>`
@@ -206,17 +246,28 @@ David
 
                 // Remove 'selected' style from all cards
                 gallery.querySelectorAll('.template-card').forEach(c => {
+                    c.setAttribute('data-selected', 'false');
                     c.classList.remove('border-blue-500');
                     c.classList.add('border-transparent');
+                    c.classList.add('hover:border-blue-500');
                 });
 
                 // Add 'selected' style to clicked card
+                card.setAttribute('data-selected', 'true');
                 card.classList.add('border-blue-500');
                 card.classList.remove('border-transparent');
+                card.classList.remove('hover:border-blue-500');
                 
                 // Update the selected template
                 selectedTemplate = card.dataset.template;
             });
+
+            // Set initial selection state for the default template (Locker Sheet)
+            const defaultCard = document.querySelector(`[data-template="${selectedTemplate}"]`);
+            if(defaultCard) {
+                defaultCard.setAttribute('data-selected', 'true');
+                defaultCard.classList.remove('hover:border-blue-500');
+            }
             
             // --- Modal Logic ---
             function showModal(message) {
