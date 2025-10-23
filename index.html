@@ -33,6 +33,16 @@
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">1. Select a Template</h2>
                         <div id="template-gallery" class="grid grid-cols-2 gap-4">
+                            <!-- Name Trace Sheet Template -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="name-trace">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col p-2">
+                                    <span class="text-xs text-gray-500">I can spell my name</span>
+                                    <span class="text-2xl font-bold text-gray-700">Trace</span>
+                                    <span class="text-xs text-gray-500">I can write my name</span>
+                                </div>
+                                <h3 class="font-semibold text-center">Name Trace Sheet</h3>
+                                <p class="text-xs text-gray-500 text-center">Practice spelling, tracing, and writing.</p>
+                            </div>
                             <!-- Locker Sheet Template -->
                             <div class="template-card border-2 border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="locker-sheet">
                                 <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2">
@@ -74,25 +84,7 @@
                     <section class="mb-6">
                         <h2 class="text-2xl font-semibold mb-4">2. Enter Student Names</h2>
                         <label for="name-textarea" class="text-sm text-gray-600 mb-2 block">Enter one name per line.</label>
-                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice
-Bob
-Charlie
-David
-...">Student 1
-Student 2
-Student 3
-Student 4
-Student 5
-Student 6
-Student 7
-Student 8
-Student 9
-Student 10
-Student 11
-Student 12
-Student 13
-Student 14
-Student 15</textarea>
+                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice Bob Charlie David"</textarea>
                     </section>
 
                     <!-- Section 3: Generate Button -->
@@ -194,7 +186,33 @@ Student 15</textarea>
                                 </h1>
                             </div>
                         </div>`
+                },
+                'name-trace': {
+                    type: 'single',
+                    html: `
+                        <div class="w-full h-full p-10 box-border flex flex-col items-center">
+                            <div class="w-full mb-8">
+                                <p class="text-xl font-semibold mb-2">I can spell my name</p>
+                                <h1 class="text-4xl font-bold border-b border-black pb-1 text-gray-800 tracking-widest text-left" style="font-family: 'Arial', sans-serif;">
+                                    {{STUDENT_NAME}}
+                                </h1>
+                            </div>
+
+                            <div class="w-full mb-8">
+                                <p class="text-xl font-semibold mb-2">I can trace my name</p>
+                                <h1 class="text-6xl font-extrabold pb-1 text-gray-400 opacity-50 tracking-widest text-left" style="font-family: 'Arial', sans-serif; letter-spacing: 0.25em;">
+                                    {{STUDENT_NAME}}
+                                </h1>
+                                <div class="h-10 border-b-4 border-dashed border-gray-500 w-full mt-2"></div>
+                            </div>
+
+                            <div class="w-full">
+                                <p class="text-xl font-semibold mb-2">I can write my name</p>
+                                <div class="w-full h-32 border-4 border-black rounded-xl mt-4"></div>
+                            </div>
+                        </div>`
                 }
+            };
             };
 
             // --- Template Selection Logic ---
