@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RosterRaster - MVP</title>
+    <!-- 1. Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Simple transition for the template selection */
+        .template-card {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-blue-700">RosterRaster</h1>
+            <p class="text-lg text-gray-600 mt-2">Create custom name sheets from your class roster instantly.</p>
+        </header>
+
+        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Left Column: Settings -->
+                <div>
+                    <!-- Section 1: Template Gallery -->
+                    <section class="mb-6">
+                        <h2 class="text-2xl font-semibold mb-4">1. Select a Template</h2>
+                        <div id="template-gallery" class="grid grid-cols-2 gap-4">
+                            <!-- Locker Sheet Template -->
+                            <div class="template-card border-2 border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="locker-sheet">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2">
+                                    <span class="text-2xl font-bold text-gray-700">Name</span>
+                                </div>
+                                <h3 class="font-semibold text-center">Locker Sheet</h3>
+                                <p class="text-xs text-gray-500 text-center">One name per page.</p>
+                            </div>
+                            
+                            <!-- File Tabs Template -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="file-tabs">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex flex-wrap items-start justify-start p-2 gap-1">
+                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 1</span>
+                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 2</span>
+                                    <span class="text-xs font-semibold bg-gray-200 rounded-t-md px-2 py-1">Name 3</span>
+                                </div>
+                                <h3 class="font-semibold text-center">File Tabs</h3>
+                                <p class="text-xs text-gray-500 text-center">Multiple names per page.</p>
+                            </div>
+
+                            <!-- Coat Hook Template -->
+                            <div class="template-card border-2 border-transparent hover:border-blue-500 rounded-lg p-3 cursor-pointer bg-white shadow" data-template="coat-hook">
+                                <div class="w-full h-24 bg-gray-50 rounded-md flex items-center justify-center mb-2 flex-col">
+                                    <!-- Simple SVG for a hook -->
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
+                                    <span class="text-sm font-bold text-gray-700 mt-1">Name</span>
+                                </div>
+                                <h3 class="font-semibold text-center">Coat Hook Label</h3>
+                                <p class="text-xs text-gray-500 text-center">One name per page.</p>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column: Input & Generate -->
+                <div>
+                    <!-- Section 2: Name Input -->
+                    <section class="mb-6">
+                        <h2 class="text-2xl font-semibold mb-4">2. Enter Student Names</h2>
+                        <label for="name-textarea" class="text-sm text-gray-600 mb-2 block">Enter one name per line.</label>
+                        <textarea id="name-textarea" rows="10" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Alice
+Bob
+Charlie
+David
+...">Student 1
+Student 2
+Student 3
+Student 4
+Student 5
+Student 6
+Student 7
+Student 8
+Student 9
+Student 10
+Student 11
+Student 12
+Student 13
+Student 14
+Student 15</textarea>
+                    </section>
+
+                    <!-- Section 3: Generate Button -->
+                    <section>
+                        <h2 class="text-2xl font-semibold mb-4">3. Generate Your PDF</h2>
+                        <button id="generate-button" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out flex items-center justify-center">
+                            <span id="btn-text">Generate PDF</span>
+                            <!-- Loading Spinner -->
+                            <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-8 text-gray-500 text-sm">
+            &copy; 2025 RosterRaster.com
+        </footer>
+
+    </main>
+    
+    <!-- Section 4: Hidden Render Area -->
+    <!-- This div is used to render the HTML before it's converted to an image by html2canvas. -->
+    <!-- It's positioned off-screen. Dimensions are set in inches for a standard letter page. -->
+    <div id="render-target" class="fixed -left-[9999px] top-0 bg-white" style="width: 8.5in; height: 11in;"></div>
+
+    <!-- Custom Modal for Errors (replaces alert()) -->
+    <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
+            <h3 class="text-lg font-semibold text-red-600 mb-4">Error</h3>
+            <p id="modal-message" class="text-gray-700 mb-6">Please enter at least one name.</p>
+            <button id="close-modal-btn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">OK</button>
+        </div>
+    </div>
+
+    <!-- 2. Include JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- 3. Core Application JavaScript -->
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Global Variables ---
+            const { jsPDF } = window.jspdf;
+            const gallery = document.getElementById('template-gallery');
+            const renderTarget = document.getElementById('render-target');
+            const nameInput = document.getElementById('name-textarea');
+            const generateBtn = document.getElementById('generate-button');
+            const btnText = document.getElementById('btn-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const errorModal = document.getElementById('error-modal');
+            const modalMessage = document.getElementById('modal-message');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            
+            let selectedTemplate = 'locker-sheet'; // Default template
+
+            // --- Template Store ---
+            // This is where you'll add new templates. Just add a new key/value pair.
+            const templates = {
+                'locker-sheet': {
+                    // type: 'single' means one name per PDF page
+                    type: 'single',
+                    // html: The HTML for the template
+                    html: `
+                        <div class="w-full h-full flex items-center justify-center p-8 box-border">
+                            <div class="w-full h-full border-4 border-blue-500 rounded-lg flex items-center justify-center p-8">
+                                <h1 class="text-7xl font-bold text-gray-800 text-center break-all" style="font-family: 'Comic Sans MS', cursive;">
+                                    {{STUDENT_NAME}}
+                                </h1>
+                            </div>
+                        </div>`
+                },
+                'file-tabs': {
+                    // type: 'grid' means multiple names per PDF page
+                    type: 'grid',
+                    // itemsPerPage: How many names to fit on one page
+                    itemsPerPage: 30, // 3 columns x 10 rows
+                    // html: The HTML for *one item* in the grid
+                    html: `
+                        <div class="w-[2.5in] h-[1in] border border-gray-400 rounded-t-lg bg-gray-100 flex items-center justify-center overflow-hidden p-2 m-[0.1in] box-border">
+                            <span class="text-xl font-semibold truncate">{{STUDENT_NAME}}</span>
+                        </div>`
+                },
+                'coat-hook': {
+                    type: 'single',
+                    html: `
+                        <div class="w-full h-full flex items-center justify-center p-8 box-border">
+                            <div class="w-[8in] h-[10in] border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center p-8">
+                                <svg class="w-24 h-24 text-gray-500" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 4v1m0 4v.01M12 13v.01M12 17v1m-4-8v4a4 4 0 004 4h.01a4 4 0 004-4v-4m-8 0a4 4 0 014-4h.01a4 4 0 014 4m-8 0v.01" /></svg>
+                                <h1 class="text-6xl font-bold text-gray-800 text-center break-all mt-6">
+                                    {{STUDENT_NAME}}
+                                </h1>
+                            </div>
+                        </div>`
+                }
+            };
+
+            // --- Template Selection Logic ---
+            gallery.addEventListener('click', (e) => {
+                const card = e.target.closest('.template-card');
+                if (!card) return;
+
+                // Remove 'selected' style from all cards
+                gallery.querySelectorAll('.template-card').forEach(c => {
+                    c.classList.remove('border-blue-500');
+                    c.classList.add('border-transparent');
+                });
+
+                // Add 'selected' style to clicked card
+                card.classList.add('border-blue-500');
+                card.classList.remove('border-transparent');
+                
+                // Update the selected template
+                selectedTemplate = card.dataset.template;
+            });
+            
+            // --- Modal Logic ---
+            function showModal(message) {
+                modalMessage.textContent = message;
+                errorModal.classList.remove('hidden');
+            }
+            closeModalBtn.addEventListener('click', () => {
+                errorModal.classList.add('hidden');
+            });
+
+            // --- PDF Generation Logic ---
+            generateBtn.addEventListener('click', async () => {
+                // 1. Show loading state
+                setLoading(true);
+
+                // 2. Get and clean the names
+                const names = nameInput.value
+                    .split('\n')
+                    .map(name => name.trim())
+                    .filter(name => name.length > 0);
+
+                // 3. Validate input
+                if (names.length === 0) {
+                    showModal("Please enter at least one name in the text box.");
+                    setLoading(false);
+                    return;
+                }
+
+                // 4. Get the selected template's config
+                const templateConfig = templates[selectedTemplate];
+                if (!templateConfig) {
+                    showModal("Invalid template selected. Please try again.");
+                    setLoading(false);
+                    return;
+                }
+
+                // 5. Initialize new PDF
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'in',
+                    format: 'letter' // 8.5 x 11 inches
+                });
+
+                // --- PDF Generation Strategy ---
+                
+                if (templateConfig.type === 'single') {
+                    // STRATEGY 1: One name per page
+                    await generateSingleNamePages(doc, names, templateConfig.html);
+                } else if (templateConfig.type === 'grid') {
+                    // STRATEGY 2: Multiple names per page
+                    await generateGridPages(doc, names, templateConfig);
+                }
+
+                // 8. Save the final PDF
+                doc.save(`RosterRaster_${selectedTemplate}.pdf`);
+                setLoading(false);
+            });
+
+            function setLoading(isLoading) {
+                if (isLoading) {
+                    btnText.classList.add('hidden');
+                    loadingSpinner.classList.remove('hidden');
+                    generateBtn.disabled = true;
+                    generateBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                } else {
+                    btnText.classList.remove('hidden');
+                    loadingSpinner.classList.add('hidden');
+                    generateBtn.disabled = false;
+                    generateBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                }
+            }
+
+            async function generateSingleNamePages(doc, names, templateHtml) {
+                for (let i = 0; i < names.length; i++) {
+                    const name = names[i];
+
+                    // Add a new page for every name *except* the first one
+                    if (i > 0) {
+                        doc.addPage();
+                    }
+
+                    // 5. Populate and render the template in the hidden div
+                    renderTarget.innerHTML = templateHtml.replace('{{STUDENT_NAME}}', escapeHTML(name));
+                    
+                    // 6. Use html2canvas to "screenshot" the hidden div
+                    const canvas = await html2canvas(renderTarget, {
+                        useCORS: true,
+                        scale: 3 // Higher scale for better PDF quality
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/png');
+
+                    // 7. Add the "screenshot" to the PDF page, fitting the full page
+                    doc.addImage(imgData, 'PNG', 0, 0, 8.5, 11);
+                }
+            }
+
+            async function generateGridPages(doc, names, templateConfig) {
+                const itemsPerPage = templateConfig.itemsPerPage;
+                const templateHtml = templateConfig.html;
+                
+                // Calculate number of pages needed
+                const pageCount = Math.ceil(names.length / itemsPerPage);
+
+                for (let p = 0; p < pageCount; p++) {
+                    // Add a new page for every page *except* the first one
+                    if (p > 0) {
+                        doc.addPage();
+                    }
+
+                    // Get the slice of names for this page
+                    const pageNames = names.slice(p * itemsPerPage, (p + 1) * itemsPerPage);
+
+                    // Build the HTML for the full page grid
+                    let pageHtml = '<div class="w-full h-full p-[0.25in] box-border flex flex-wrap content-start justify-start">';
+                    for (const name of pageNames) {
+                        pageHtml += templateHtml.replace('{{STUDENT_NAME}}', escapeHTML(name));
+                    }
+                    pageHtml += '</div>';
+
+                    // 5. Populate and render the template in the hidden div
+                    renderTarget.innerHTML = pageHtml;
+                    
+                    // 6. Use html2canvas to "screenshot" the hidden div
+                    const canvas = await html2canvas(renderTarget, {
+                        useCORS: true,
+                        scale: 3
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/png');
+
+                    // 7. Add the "screenshot" to the PDF page
+                    doc.addImage(imgData, 'PNG', 0, 0, 8.5, 11);
+                }
+            }
+
+            // Helper function to prevent basic HTML injection
+            function escapeHTML(str) {
+                return str.replace(/[&<>"']/g, function(m) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#39;'
+                    }[m];
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
